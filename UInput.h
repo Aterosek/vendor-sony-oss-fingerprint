@@ -12,6 +12,7 @@ int fpc_uinput_create(fpc_uinput_t *);
 int fpc_uinput_destroy(fpc_uinput_t *);
 int fpc_uinput_send(const fpc_uinput_t *, unsigned short keycode, unsigned short value);
 int fpc_uinput_click(const fpc_uinput_t *uinput, unsigned short keycode);
+int fpc_uinput_doubletap(const fpc_uinput_t *uinput);
 
 __END_DECLS
 

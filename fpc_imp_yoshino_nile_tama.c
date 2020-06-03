@@ -573,6 +573,7 @@ err_t fpc_navi_poll(fpc_imp_data_t *data)
                     break;
                 case FPC_GESTURE_DOUBLE_TAP:
                     ALOGI("Gesture: Double tap");
+                    fpc_uinput_doubletap(&data->uinput);
                     break;
             }
         }

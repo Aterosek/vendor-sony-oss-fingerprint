@@ -44,6 +44,8 @@ int fpc_uinput_create(fpc_uinput_t *uinput)
     rc |= ioctl(fd, UI_SET_KEYBIT, KEY_DOWN);
     rc |= ioctl(fd, UI_SET_KEYBIT, KEY_UP);
     rc |= ioctl(fd, UI_SET_KEYBIT, KEY_RIGHT);
+    rc |= ioctl(fd, UI_SET_EVBIT, EV_MSC);
+    rc |= ioctl(fd, UI_SET_MSCBIT, MSC_GESTURE);
 
     // See fpc_navi_poll: These keys are not used:
     /*
@@ -148,6 +150,16 @@ int fpc_uinput_click(const fpc_uinput_t *uinput, unsigned short keycode)
     int rc = 0;
     rc |= fpc_write_input_event(uinput, EV_KEY, keycode, 1);
     rc |= fpc_write_input_event(uinput, EV_KEY, keycode, 0);
+    rc |= fpc_write_input_event(uinput, EV_SYN, SYN_REPORT, 0);
+    ALOGE_IF(rc, "Failed to write uinput event: %d", rc);
+    return rc;
+}
+
+/**                                                                                                                          * Simulate a double tap event followed by a synchronize.                                                                    */
+int fpc_uinput_doubletap(const fpc_uinput_t *uinput)
+{
+    int rc = 0;
+    rc |= fpc_write_input_event(uinput, EV_MSC, MSC_GESTURE, 4);
     rc |= fpc_write_input_event(uinput, EV_SYN, SYN_REPORT, 0);
     ALOGE_IF(rc, "Failed to write uinput event: %d", rc);
     return rc;
